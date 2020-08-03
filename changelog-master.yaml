@@ -1,0 +1,36 @@
+databaseChangeLog:
+- changeSet:
+    id: 1596473614874-1
+    author: ivan (generated)
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              nullable: false
+              primaryKey: true
+              primaryKeyName: userPK
+            name: id
+            type: UUID
+        - column:
+            name: email
+            type: VARCHAR(255)
+        - column:
+            name: first_name
+            type: VARCHAR(255)
+        - column:
+            name: last_name
+            type: VARCHAR(255)
+        - column:
+            name: password
+            type: VARCHAR(255)
+        tableName: user
+- changeSet:
+    id: 1596473614874-2
+    author: ivan (generated)
+    changes:
+    - addUniqueConstraint:
+        columnNames: email
+        constraintName: UC_USEREMAIL_COL
+        tableName: user
+

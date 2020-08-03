@@ -1,0 +1,67 @@
+plugins {
+	id 'org.springframework.boot' version '2.2.7.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id "org.liquibase.gradle" version "2.0.2"
+	id 'java'
+}
+
+group = 'com.example.demo'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '14'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+apply plugin: 'org.liquibase.gradle'
+
+diffChangeLog.dependsOn compileJava
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	compileOnly 'org.projectlombok:lombok'
+//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	testImplementation 'com.h2database:h2'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+
+	implementation 'org.liquibase:liquibase-core'
+	runtimeOnly 'javax.xml.bind:jaxb-api'
+	liquibaseRuntime 'org.liquibase:liquibase-core'
+	liquibaseRuntime 'org.postgresql:postgresql'
+	liquibaseRuntime('org.liquibase.ext:liquibase-hibernate5:3.6')
+	liquibaseRuntime('org.springframework.boot:spring-boot-starter')
+	liquibaseRuntime('org.springframework.boot:spring-boot-starter-data-jpa')
+	liquibaseRuntime 'org.springframework:spring-orm'
+	liquibaseRuntime 'javax.xml.bind:jaxb-api'
+	liquibaseRuntime 'org.yaml:snakeyaml:1.25'
+	liquibaseRuntime sourceSets.main.output
+}
+
+test {
+	useJUnitPlatform()
+}
+
+liquibase {
+	activities {
+		main {
+			driver 'org.postgresql.Driver'
+			url 'jdbc:postgresql://localhost:5432/dev'
+			username 'dev'
+			password 'dev'
+			changeLogFile 'changelog-master.yaml'
+			defaultSchemaName 'public'
+			referenceUrl 'hibernate:spring:com.example.demo.entity?dialect=org.hibernate.dialect.PostgreSQLDialect&hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy'
+		}
+	}
+}
