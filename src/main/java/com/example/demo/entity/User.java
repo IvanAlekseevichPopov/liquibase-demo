@@ -11,7 +11,7 @@ public class User {
     @Column
     private UUID id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
     @Column

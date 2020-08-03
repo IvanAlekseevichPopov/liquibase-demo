@@ -1,6 +1,6 @@
 databaseChangeLog:
 - changeSet:
-    id: 1596473614874-1
+    id: 1596475018009-1
     author: ivan (generated)
     changes:
     - createTable:
@@ -13,6 +13,8 @@ databaseChangeLog:
             name: id
             type: UUID
         - column:
+            constraints:
+              nullable: false
             name: email
             type: VARCHAR(255)
         - column:
@@ -26,7 +28,7 @@ databaseChangeLog:
             type: VARCHAR(255)
         tableName: user
 - changeSet:
-    id: 1596473614874-2
+    id: 1596475018009-2
     author: ivan (generated)
     changes:
     - addUniqueConstraint:
